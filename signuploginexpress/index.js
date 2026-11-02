@@ -23,3 +23,23 @@ app.post("/signup",(req,res)=>{
     }
 
 })
+
+app.post("/login",(req, res)=>{
+    const userdata  = req.body
+    const location = path.join(root,"files","users.json")
+    const users = JSON.parse(fs.readFileSync(location,"utf-8"))
+    const user = users.find((user)=>user.gmail === userdata.gmail)
+    if(user){
+        if(user.password === userdata.password){
+            res.status(200).send("login sucessfull")
+
+        }else{
+           res.status(404).send("Incorrect password")
+        }
+
+    }else{
+        res.status(404).send("User not found")
+
+    }
+
+})
